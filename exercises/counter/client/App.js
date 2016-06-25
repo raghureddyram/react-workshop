@@ -8,7 +8,10 @@ export const App = React.createClass({
   },
 
   handleIncrement() {
-    console.log('This is where the increment code should go...');
+    var newCount = this.state.count + 1;
+    this.setState({
+      count: newCount,
+    });
   },
 
   render() {
