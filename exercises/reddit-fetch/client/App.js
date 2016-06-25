@@ -23,7 +23,12 @@ const Post = React.createClass({
     const { permalink, title } = this.props.post.data;
     return (
       <div className='Post'>
-        {/* Render based on the passed data */}
+        <div className='Title'>
+          {title}
+        </div>
+        <div className='Permalink'>
+          {permalink}
+        </div>
       </div>
     );
   },
@@ -42,6 +47,9 @@ export const App = React.createClass({
     // subreddit is the value that the user input
     const subreddit = e.target.elements.subreddit.value.trim();
 
+    subreddit ? fetchR(subreddit).then((posts) => {return this.setState({posts: posts}) }) : getInitialState();
+
+
     // * If there is no subreddit assume the user emptied out the input. Reset the
     // posts state to an empty array.
 
@@ -58,8 +66,9 @@ export const App = React.createClass({
           <input name='subreddit' type='text' placeholder='Enter Reddit...' />
         </form>
         <div className='posts'>
-          {/* Render your posts here */}
+          {posts.map(function(singlePost){ return <Post post={singlePost}/>;})}
         </div>
+
         {posts.length ? null : <h2>No reddit posts</h2>}
       </div>
     );
