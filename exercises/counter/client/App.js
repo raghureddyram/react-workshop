@@ -14,6 +14,13 @@ export const App = React.createClass({
     });
   },
 
+  handleDecrement() {
+    var newCount = this.state.count - 1;
+    this.setState({
+      count: newCount,
+    });
+  },
+
   render() {
     return (
       <div className='App Counter'>
@@ -21,7 +28,7 @@ export const App = React.createClass({
         <h1>{this.state.count}</h1>
         <div>
           <button onClick={this.handleIncrement}>+</button>
-          <button>-</button>
+          <button onClick={this.handleDecrement}>-</button>
         </div>
       </div>
     );
