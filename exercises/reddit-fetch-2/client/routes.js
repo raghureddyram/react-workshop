@@ -9,6 +9,25 @@ const Home = () => (
   </div>
 );
 
+const About = () => (
+  <div className='About'>
+    {this.props.children}
+  </div>
+);
+
+const FinalAbout = () => (
+  <About>
+    <InnerAbout />
+  </About>
+);
+
+const InnerAbout = () => (
+  <div>
+  <h1>This is my about page...</h1>
+  <p>hmm</p>
+  </div>
+);
+
 const NotFound = (props) => (
   <div className='Home'>
     <h1>{props.location.pathname} not found...</h1>
@@ -18,10 +37,9 @@ const NotFound = (props) => (
 export const routes = (
   <Route path='/' component={App}>
     <IndexRoute component={Home} />
-    {/*
-      We'll want to add some new routes here. We'll want to add a route for the
-      PostList we've imported above, as well as a catch-all route to act as a
-      client-side 404.
-    */}
+    <Route path='/about' component={FinalAbout} />
+    <Route path='r/:subreddit' component={PostList} />
+
+    <Route path='*' component={NotFound} />
   </Route>
 );

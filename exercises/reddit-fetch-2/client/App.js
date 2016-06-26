@@ -61,18 +61,28 @@ export const App = React.createClass({
   componentDidMount() {
     // We will need to fetch any subreddit that is already in the URL bar when
     // the component mounts
+
+    console.log('compdidMount');
   },
 
   componentDidUpdate(prevProps, prevState) {
     // We will want to fetch the current sub reddit if it has changed. I.e. if
     // the user has input a new subreddit to fetch
+
+
+    const prevSubreddit = prevProps.params.subreddit;
+    const subreddit = this.props.params.subreddit;
+
+    if (prevSubreddit === subreddit) return;
+    this.fetchSubreddit();
+
   },
 
   // Fetch the sub reddit and update state. Note that now instead of reading
   // from the input field we are reading from the URL params provided to us by
   // react router
   fetchSubreddit() {
-    const subreddit = this.props.params.r;
+    const subreddit = this.props.params.subreddit;
 
     fetchR(subreddit)
     .then(posts => this.setState({ posts }))
@@ -88,11 +98,12 @@ export const App = React.createClass({
     const subreddit = e.target.elements.subreddit.value.trim();
     const { router } = this.context;
 
-    // If there is no subreddit (i.e. the input field is empty) then redirec the
-    // user to the home page '/'
+    if (!subreddit){
+      router.push('/');
+      return;
+    }
 
-    // If we do have a subreddit then redirect the user to /r/:subreddit using
-    // the router
+    router.push(`/r/${subreddit}`);
   },
 
   render() {
@@ -103,8 +114,7 @@ export const App = React.createClass({
           <input name='subreddit' type='text' placeholder='Enter Reddit...' />
         </form>
 
-        {/* We will need to pass down the posts as we did before... */}
-        {this.props.children}
+        {React.cloneElement(this.props.children, { posts: posts })}
       </div>
     );
   },
